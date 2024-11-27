@@ -6,10 +6,13 @@ type ResponseData = {
   message: string
 }
 
-// console.log('Loading environment variables...');
+console.log('Loading environment variables...');
 const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n')
-// const GOOGLE_CLIENT_EMAIL = process.env.GOOGLE_CLIENT_EMAIL
-// const GOOGLE_SHEET_ID = process.env.GOOGLE_SHEET_ID
+console.log('Loading environment variables1');
+const GOOGLE_CLIENT_EMAIL = process.env.GOOGLE_CLIENT_EMAIL
+console.log('Loading environment variables2');
+const GOOGLE_SHEET_ID = process.env.GOOGLE_SHEET_ID
+console.log('Loading environment variables3');
 
 export default async function handler(
   req: NextApiRequest,
