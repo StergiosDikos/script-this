@@ -14,9 +14,9 @@ console.log(process.env.GOOGLE_PRIVATE_KEY)
 const GOOGLE_CLIENT_EMAIL = process.env.GOOGLE_CLIENT_EMAIL
 console.log('Loading environment variables2');
 console.log(GOOGLE_CLIENT_EMAIL);
-const GOOGLE_SHEET_ID = process.env.GOOGLE_SHEET_ID
+const GOOGLE_SPREADSHEET_ID = process.env.GOOGLE_SPREADSHEET_ID
 console.log('Loading environment variables3');
-console.log(GOOGLE_SHEET_ID);
+console.log(GOOGLE_SPREADSHEET_ID);
 
 export default async function handler(
   req: NextApiRequest,
@@ -34,11 +34,11 @@ export default async function handler(
       return res.status(400).json({ message: 'Valid email is required' })
     }
 
-    if (!GOOGLE_PRIVATE_KEY || !GOOGLE_CLIENT_EMAIL || !GOOGLE_SHEET_ID) {
+    if (!GOOGLE_PRIVATE_KEY || !GOOGLE_CLIENT_EMAIL || !GOOGLE_SPREADSHEET_ID) {
       console.error('Missing credentials:', {
         hasPrivateKey: !!GOOGLE_PRIVATE_KEY,
         hasClientEmail: !!GOOGLE_CLIENT_EMAIL,
-        hasSheetId: !!GOOGLE_SHEET_ID
+        hasSheetId: !!GOOGLE_SPREADSHEET_ID
       });
     //   throw new Error('Missing required Google credentials')
     }
@@ -54,7 +54,7 @@ export default async function handler(
 
     // console.log('Loading spreadsheet...');
     // // Initialize the sheet
-    // const doc = new GoogleSpreadsheet(GOOGLE_SHEET_ID, jwt)
+    // const doc = new GoogleSpreadsheet(GOOGLE_SPREADSHEET_ID, jwt)
     // await doc.loadInfo()
     
     // console.log('Getting first sheet...');
