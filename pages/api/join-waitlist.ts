@@ -7,10 +7,11 @@ type ResponseData = {
 }
 
 // These should be in your .env.local file
+console.log('in join waitlist 1');
 const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n')
 const GOOGLE_CLIENT_EMAIL = process.env.GOOGLE_CLIENT_EMAIL
 const GOOGLE_SHEET_ID = process.env.GOOGLE_SHEET_ID
-
+console.log('GOOGLE_PRIVATE_KEY'+GOOGLE_PRIVATE_KEY);
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
