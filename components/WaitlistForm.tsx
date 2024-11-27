@@ -22,6 +22,7 @@ export default function WaitlistForm() {
       });
 
       const data = await response.json();
+      console.log('API Response:', data);
 
       if (!response.ok) {
         throw new Error(data.error || data.message || 'Failed to submit email');
