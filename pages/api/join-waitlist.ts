@@ -30,14 +30,14 @@ export default async function handler(
       return res.status(400).json({ message: 'Valid email is required' })
     }
 
-    // if (!GOOGLE_PRIVATE_KEY || !GOOGLE_CLIENT_EMAIL || !GOOGLE_SHEET_ID) {
-    //   console.error('Missing credentials:', {
-    //     hasPrivateKey: !!GOOGLE_PRIVATE_KEY,
-    //     hasClientEmail: !!GOOGLE_CLIENT_EMAIL,
-    //     hasSheetId: !!GOOGLE_SHEET_ID
-    //   });
-    //   throw new Error('Missing required Google credentials')
-    // }
+    if (!GOOGLE_PRIVATE_KEY || !GOOGLE_CLIENT_EMAIL || !GOOGLE_SHEET_ID) {
+      console.error('Missing credentials:', {
+        hasPrivateKey: !!GOOGLE_PRIVATE_KEY,
+        hasClientEmail: !!GOOGLE_CLIENT_EMAIL,
+        hasSheetId: !!GOOGLE_SHEET_ID
+      });
+      throw new Error('Missing required Google credentials')
+    }
 
     console.log('Initializing Google Auth...');
     // Auth
