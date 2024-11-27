@@ -15,13 +15,17 @@ export default function WaitlistForm() {
     setStatus('loading');
     setErrorMessage('');
 
+    // Clear previous success messages
+    setSuccessMessage1(null);
+    setSuccessMessage2(null);
+
     try {
       const response = await fetch('/api/submit-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email: email2 }),
+        body: JSON.stringify({ email: email2 }), // Use the second email for submission
       });
 
       const data = await response.json();
@@ -34,8 +38,13 @@ export default function WaitlistForm() {
       setStatus('success');
       setEmail('');
       setEmail2('');
-      setSuccessMessage1('Successfully joined waitlist');
-      setSuccessMessage2('Successfully joined waitlist');
+
+      // Set success message for the appropriate input
+      if (email2) {
+        setSuccessMessage2('Successfully joined waitlist');
+      } else {
+        setSuccessMessage1('Successfully joined waitlist');
+      }
     } catch (error) {
       console.error('Form error:', error);
       setStatus('error');
