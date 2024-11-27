@@ -7,7 +7,8 @@ export default function WaitlistForm() {
   const [email2, setEmail2] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [successMessage1, setSuccessMessage1] = useState<string | null>(null);
+  const [successMessage2, setSuccessMessage2] = useState<string | null>(null);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,7 +34,8 @@ export default function WaitlistForm() {
       setStatus('success');
       setEmail('');
       setEmail2('');
-      setSuccessMessage('Successfully joined waitlist');
+      setSuccessMessage1('Successfully joined waitlist');
+      setSuccessMessage2('Successfully joined waitlist');
     } catch (error) {
       console.error('Form error:', error);
       setStatus('error');
@@ -52,7 +54,7 @@ export default function WaitlistForm() {
           required
           className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        {successMessage && <p className="text-green-600">{successMessage}</p>}
+        {successMessage1 && <p className="text-green-600">{successMessage1}</p>}
       </div>
       <div className="flex gap-2">
         <input
@@ -63,7 +65,7 @@ export default function WaitlistForm() {
           required
           className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        {successMessage && <p className="text-green-600">{successMessage}</p>}
+        {successMessage2 && <p className="text-green-600">{successMessage2}</p>}
       </div>
       <button 
         type="submit" 
