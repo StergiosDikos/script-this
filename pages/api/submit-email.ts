@@ -26,6 +26,7 @@ export default async function handler(
     console.log('Received email:', email);
 
     if (!email) {
+      console.log('Email missing in request');
       return res.status(400).json({ message: 'Email is required' });
     }
 
@@ -39,30 +40,37 @@ export default async function handler(
 
     // Initialize the sheet
     console.log('Initializing spreadsheet...');
-    const doc = new GoogleSpreadsheet(process.env.GOOGLE_SPREADSHEET_ID!, serviceAccountAuth);
-    await doc.loadInfo();
-    console.log('Spreadsheet loaded:', doc.title);
+    try {
+      const doc = new GoogleSpreadsheet(process.env.GOOGLE_SPREADSHEET_ID!, serviceAccountAuth);
+      console.log('Loading spreadsheet info...');
+      await doc.loadInfo();
+      console.log('Spreadsheet loaded:', doc.title);
 
-    // Get the first sheet
-    const sheet = doc.sheetsByIndex[0];
-    console.log('Sheet accessed:', sheet.title);
+      // Get the first sheet
+      const sheet = doc.sheetsByIndex[0];
+      console.log('Sheet accessed:', sheet.title);
 
-    // Append the row
-    console.log('Appending row...');
-    await sheet.addRow({
-      Email: email,
-      Timestamp: new Date().toISOString(),
-    });
+      // Append the row
+      console.log('Appending row...');
+      await sheet.addRow({
+        Email: email,
+        Timestamp: new Date().toISOString(),
+      });
+      console.log('Row added successfully');
 
-    return res.status(200).json({ message: 'Email submitted successfully' });
-  } catch (error) {
-    console.error('Detailed error:', error);
-    if (error instanceof Error) {
+      return res.status(200).json({ message: 'Email submitted successfully' });
+    } catch (sheetError) {
+      console.error('Spreadsheet error:', sheetError);
       return res.status(500).json({ 
-        message: 'Error submitting email',
-        error: error.message 
+        message: 'Error accessing spreadsheet',
+        error: sheetError instanceof Error ? sheetError.message : 'Unknown error'
       });
     }
-    return res.status(500).json({ message: 'Error submitting email' });
+  } catch (error) {
+    console.error('Detailed error:', error);
+    return res.status(500).json({ 
+      message: 'Error submitting email',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
   }
 } 
