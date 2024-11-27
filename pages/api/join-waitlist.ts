@@ -6,10 +6,10 @@ type ResponseData = {
   message: string
 }
 
-console.log('Loading environment variables...');
-const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n')
-const GOOGLE_CLIENT_EMAIL = process.env.GOOGLE_CLIENT_EMAIL
-const GOOGLE_SHEET_ID = process.env.GOOGLE_SHEET_ID
+// console.log('Loading environment variables...');
+// const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n')
+// const GOOGLE_CLIENT_EMAIL = process.env.GOOGLE_CLIENT_EMAIL
+// const GOOGLE_SHEET_ID = process.env.GOOGLE_SHEET_ID
 
 export default async function handler(
   req: NextApiRequest,
@@ -27,18 +27,18 @@ export default async function handler(
       return res.status(400).json({ message: 'Valid email is required' })
     }
 
-    if (!GOOGLE_PRIVATE_KEY || !GOOGLE_CLIENT_EMAIL || !GOOGLE_SHEET_ID) {
-      console.error('Missing credentials:', {
-        hasPrivateKey: !!GOOGLE_PRIVATE_KEY,
-        hasClientEmail: !!GOOGLE_CLIENT_EMAIL,
-        hasSheetId: !!GOOGLE_SHEET_ID
-      });
-      throw new Error('Missing required Google credentials')
-    }
+    // if (!GOOGLE_PRIVATE_KEY || !GOOGLE_CLIENT_EMAIL || !GOOGLE_SHEET_ID) {
+    //   console.error('Missing credentials:', {
+    //     hasPrivateKey: !!GOOGLE_PRIVATE_KEY,
+    //     hasClientEmail: !!GOOGLE_CLIENT_EMAIL,
+    //     hasSheetId: !!GOOGLE_SHEET_ID
+    //   });
+    //   throw new Error('Missing required Google credentials')
+    // }
 
     console.log('Initializing Google Auth...');
     // Auth
-    
+
     // const jwt = new JWT({
     //   email: GOOGLE_CLIENT_EMAIL,
     //   key: GOOGLE_PRIVATE_KEY,
