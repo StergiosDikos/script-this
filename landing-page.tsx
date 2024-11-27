@@ -6,6 +6,7 @@ import Link from "next/link"
 import { ArrowRight, Mic, Edit, Wand2, Lightbulb, Users, Fingerprint, Zap } from 'lucide-react'
 
 export default function EarlyAccessLandingPage() {
+  console.log('in landing page');
   const [email, setEmail] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitMessage, setSubmitMessage] = useState('')
