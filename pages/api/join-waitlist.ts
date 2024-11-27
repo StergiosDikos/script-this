@@ -40,33 +40,33 @@ export default async function handler(
         hasClientEmail: !!GOOGLE_CLIENT_EMAIL,
         hasSheetId: !!GOOGLE_SPREADSHEET_ID
       });
-    //   throw new Error('Missing required Google credentials')
+      throw new Error('Missing required Google credentials')
     }
 
     console.log('Initializing Google Auth...');
     // Auth
 
-    // const jwt = new JWT({
-    //   email: GOOGLE_CLIENT_EMAIL,
-    //   key: GOOGLE_PRIVATE_KEY,
-    //   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-    // })
+    const jwt = new JWT({
+      email: GOOGLE_CLIENT_EMAIL,
+      key: GOOGLE_PRIVATE_KEY,
+      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+    })
 
-    // console.log('Loading spreadsheet...');
-    // // Initialize the sheet
-    // const doc = new GoogleSpreadsheet(GOOGLE_SPREADSHEET_ID, jwt)
-    // await doc.loadInfo()
+    console.log('Loading spreadsheet...');
+    // Initialize the sheet
+    const doc = new GoogleSpreadsheet(GOOGLE_SPREADSHEET_ID, jwt)
+    await doc.loadInfo()
     
-    // console.log('Getting first sheet...');
-    // // Get the first sheet
-    // const sheet = doc.sheetsByIndex[0]
+    console.log('Getting first sheet...');
+    // Get the first sheet
+    const sheet = doc.sheetsByIndex[0]
     
-    // console.log('Adding row with email:', email);
-    // // Add the row
-    // await sheet.addRow({
-    //   email,
-    //   timestamp: new Date().toISOString(),
-    // })
+    console.log('Adding row with email:', email);
+    // Add the row
+    await sheet.addRow({
+      email,
+      timestamp: new Date().toISOString(),
+    })
 
     console.log('Successfully added email to waitlist');
     return res.status(200).json({ message: 'Successfully joined waitlist' })
