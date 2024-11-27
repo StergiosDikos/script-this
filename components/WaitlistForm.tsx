@@ -6,15 +6,14 @@ export default function WaitlistForm() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    console.log('in handleSubmit');
     e.preventDefault();
     setStatus('loading');
     setErrorMessage('');
 
     try {
-        console.log('before fetch');
       const response = await fetch('/api/submit-email', {
         method: 'POST',
         headers: {
@@ -32,6 +31,7 @@ export default function WaitlistForm() {
 
       setStatus('success');
       setEmail('');
+      setSuccessMessage('Successfully joined waitlist');
     } catch (error) {
       console.error('Form error:', error);
       setStatus('error');
@@ -50,6 +50,7 @@ export default function WaitlistForm() {
           required
           className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+        {successMessage && <p className="text-green-600">{successMessage}</p>}
         <button 
           type="submit" 
           disabled={status === 'loading'}
@@ -58,9 +59,6 @@ export default function WaitlistForm() {
           {status === 'loading' ? 'Submitting...' : 'Join Waitlist'}
         </button>
       </div>
-      {status === 'success' && (
-        <p className="text-green-600">Thank you for joining our waitlist!</p>
-      )}
       {status === 'error' && (
         <p className="text-red-600">Error: {errorMessage}</p>
       )}
