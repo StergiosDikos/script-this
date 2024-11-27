@@ -7,7 +7,7 @@ type ResponseData = {
 }
 
 // console.log('Loading environment variables...');
-// const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n')
+const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n')
 // const GOOGLE_CLIENT_EMAIL = process.env.GOOGLE_CLIENT_EMAIL
 // const GOOGLE_SHEET_ID = process.env.GOOGLE_SHEET_ID
 
