@@ -8,11 +8,13 @@ export default function WaitlistForm() {
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    console.log('in handleSubmit');
     e.preventDefault();
     setStatus('loading');
     setErrorMessage('');
 
     try {
+        console.log('before fetch');
       const response = await fetch('/api/submit-email', {
         method: 'POST',
         headers: {
