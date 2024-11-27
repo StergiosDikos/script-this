@@ -162,6 +162,10 @@ export default function EarlyAccessLandingPage() {
               Join Waitlist
             </Button>
           </form>
+          {submitMessage && (
+            <p className="mt-4 text-sm text-green-400">{submitMessage}</p>
+          )}
+          
         </section>
       </main>
 
