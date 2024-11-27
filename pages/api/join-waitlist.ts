@@ -1,8 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { GoogleSpreadsheet } from 'google-spreadsheet'
+import { JWT } from 'google-auth-library'
 
 type ResponseData = {
   message: string
 }
+
+// These should be in your .env.local file
+const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n')
+const GOOGLE_CLIENT_EMAIL = process.env.GOOGLE_CLIENT_EMAIL
+const GOOGLE_SHEET_ID = process.env.GOOGLE_SHEET_ID
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,13 +27,30 @@ export default async function handler(
       return res.status(400).json({ message: 'Valid email is required' })
     }
 
-    // TODO: Add your email storage logic here
-    // This could be:
-    // - Saving to a database
-    // - Adding to a mailing list service
-    // - Sending to a spreadsheet
+    if (!GOOGLE_PRIVATE_KEY || !GOOGLE_CLIENT_EMAIL || !GOOGLE_SHEET_ID) {
+      throw new Error('Missing required Google credentials')
+    }
+
+    // Auth
+    const jwt = new JWT({
+      email: GOOGLE_CLIENT_EMAIL,
+      key: GOOGLE_PRIVATE_KEY,
+      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+    })
+
+    // Initialize the sheet
+    const doc = new GoogleSpreadsheet(GOOGLE_SHEET_ID, jwt)
+    await doc.loadInfo()
     
-    // For now, just return success
+    // Get the first sheet
+    const sheet = doc.sheetsByIndex[0]
+    
+    // Add the row
+    await sheet.addRow({
+      email,
+      timestamp: new Date().toISOString(),
+    })
+
     return res.status(200).json({ message: 'Successfully joined waitlist' })
     
   } catch (error) {
