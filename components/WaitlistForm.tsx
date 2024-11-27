@@ -5,10 +5,12 @@ import { useState, FormEvent, ChangeEvent } from 'react';
 export default function WaitlistForm() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus('loading');
+    setErrorMessage('');
 
     try {
       const response = await fetch('/api/submit-email', {
@@ -19,15 +21,18 @@ export default function WaitlistForm() {
         body: JSON.stringify({ email }),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error('Failed to submit email');
+        throw new Error(data.error || data.message || 'Failed to submit email');
       }
 
       setStatus('success');
       setEmail('');
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Form error:', error);
       setStatus('error');
+      setErrorMessage(error instanceof Error ? error.message : 'An error occurred');
     }
   };
 
@@ -54,7 +59,7 @@ export default function WaitlistForm() {
         <p className="text-green-600">Thank you for joining our waitlist!</p>
       )}
       {status === 'error' && (
-        <p className="text-red-600">Something went wrong. Please try again.</p>
+        <p className="text-red-600">Error: {errorMessage}</p>
       )}
     </form>
   );
