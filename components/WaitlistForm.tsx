@@ -4,6 +4,7 @@ import { useState, FormEvent, ChangeEvent } from 'react';
 
 export default function WaitlistForm() {
   const [email, setEmail] = useState('');
+  const [email2, setEmail2] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -19,7 +20,7 @@ export default function WaitlistForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: email2 }),
       });
 
       const data = await response.json();
@@ -31,6 +32,7 @@ export default function WaitlistForm() {
 
       setStatus('success');
       setEmail('');
+      setEmail2('');
       setSuccessMessage('Successfully joined waitlist');
     } catch (error) {
       console.error('Form error:', error);
@@ -51,14 +53,25 @@ export default function WaitlistForm() {
           className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         {successMessage && <p className="text-green-600">{successMessage}</p>}
-        <button 
-          type="submit" 
-          disabled={status === 'loading'}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50"
-        >
-          {status === 'loading' ? 'Submitting...' : 'Join Waitlist'}
-        </button>
       </div>
+      <div className="flex gap-2">
+        <input
+          type="email"
+          value={email2}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail2(e.target.value)}
+          placeholder="Enter your email"
+          required
+          className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        {successMessage && <p className="text-green-600">{successMessage}</p>}
+      </div>
+      <button 
+        type="submit" 
+        disabled={status === 'loading'}
+        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50"
+      >
+        {status === 'loading' ? 'Submitting...' : 'Join Waitlist'}
+      </button>
       {status === 'error' && (
         <p className="text-red-600">Error: {errorMessage}</p>
       )}
