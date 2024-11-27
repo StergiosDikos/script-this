@@ -9,10 +9,14 @@ type ResponseData = {
 console.log('Loading environment variables...');
 const GOOGLE_PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n')
 console.log('Loading environment variables1');
+console.log(GOOGLE_PRIVATE_KEY);
+console.log(process.env.GOOGLE_PRIVATE_KEY)
 const GOOGLE_CLIENT_EMAIL = process.env.GOOGLE_CLIENT_EMAIL
 console.log('Loading environment variables2');
+console.log(GOOGLE_CLIENT_EMAIL);
 const GOOGLE_SHEET_ID = process.env.GOOGLE_SHEET_ID
 console.log('Loading environment variables3');
+console.log(GOOGLE_SHEET_ID);
 
 export default async function handler(
   req: NextApiRequest,
@@ -36,7 +40,7 @@ export default async function handler(
         hasClientEmail: !!GOOGLE_CLIENT_EMAIL,
         hasSheetId: !!GOOGLE_SHEET_ID
       });
-      throw new Error('Missing required Google credentials')
+    //   throw new Error('Missing required Google credentials')
     }
 
     console.log('Initializing Google Auth...');
